@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/Models/contact/ContactExperience";
+import emailjs from "@emailjs/browser"; 
 
 const Contact = () => {
   const formRef = useRef(null);
@@ -19,23 +20,23 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Show loading state
+    setLoading(true); 
 
-    // try {
-    //   await emailjs.sendForm(
-    //     import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-    //     import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-    //     formRef.current,
-    //     import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-    //   );
+    try {
+      await emailjs.sendForm(
+        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+      );
 
-    //   // Reset form and stop loading
-    //   setForm({ name: "", email: "", message: "" });
-    // } catch (error) {
-    //   console.error("EmailJS Error:", error); // Optional: show toast
-    // } finally {
-   setLoading(false); // Always stop loading, even on error
-    // }
+      
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      console.error("EmailJS Error:", error); 
+    } finally {
+   setLoading(false); 
+    }
   };
 
   return (
@@ -92,7 +93,7 @@ const Contact = () => {
                   />
                 </div>
 
-                <button type="submit">
+                <button type="submit" disabled={loading}>
                   <div className="cta-button group">
                     <div className="bg-circle" />
                     <p className="text">
