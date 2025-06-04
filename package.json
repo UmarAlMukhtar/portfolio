@@ -1,5 +1,6 @@
 {
   "name": "portfolio",
+  "homepage": "https://umaralmukhtar.github.io/portfolio/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,6 +18,7 @@
     "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.1.8",
     "emailjs": "^4.0.3",
+    "gh-pages": "^6.3.0",
     "gsap": "^3.13.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
