@@ -152,7 +152,7 @@ const expCards = [
     imgPath: "/images/exp1.png",
     logoPath: "/images/logo1.png",
     title: "CTO – IEDC, LBS College of Engineering",
-    date: "August 2024 – Present",
+    date: "March 2024 – Present",
     responsibilities: [
       "Led the technology strategy and digital transformation initiatives for the IEDC.",
       "Guided a team of budding developers to implement web-based platforms and tools.",
@@ -165,7 +165,7 @@ const expCards = [
     imgPath: "/images/exp2.png",
     logoPath: "/images/logo2.png",
     title: "Web Developer – Kasaroam Tourism Platform",
-    date: "May 2024 – Present",
+    date: "January 2025 – Present",
     responsibilities: [
       "Built and deployed key features for the Kasaroam tourism web app using HTML, CSS, and JavaScript.",
       "Collaborated with a team of students to design an interactive and visually appealing user interface.",
@@ -178,7 +178,7 @@ const expCards = [
     imgPath: "/images/exp3.png",
     logoPath: "/images/logo3.png",
     title: "Backend Developer – Smart City Project",
-    date: "January 2025 – Present",
+    date: "December 2024 – Present",
     responsibilities: [
       "Developed and integrated backend APIs for the Littering Detection and Alert Dashboard using Node.js and MongoDB.",
       "Implemented AI models using YOLOv11 and OpenCV to detect and classify littering events.",
