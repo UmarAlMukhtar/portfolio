@@ -250,18 +250,22 @@ const testimonials = [
 const socialImgs = [
   {
     name: "insta",
+    url: "https://www.instagram.com/umaralmukhtar_/",
     imgPath: "/images/insta.png",
   },
   {
     name: "fb",
+    url: "https://www.facebook.com/umaralmukhtar.ibrahim/",
     imgPath: "/images/fb.png",
   },
   {
     name: "x",
+    url: "https://x.com/UmarAlMukhtar_",
     imgPath: "/images/x.png",
   },
   {
     name: "linkedin",
+    url: "https://www.linkedin.com/in/umaralmukhtaribrahimkutty/",
     imgPath: "/images/linkedin.png",
   },
 ];
