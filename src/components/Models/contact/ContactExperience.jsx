@@ -3,8 +3,20 @@ import { Canvas } from "@react-three/fiber";
 import Computer from "./Computer";  
 
 const ContactExperience = () => {
+  // Lower pixel ratio for performance
+  const dpr = window.innerWidth < 768 ? 0.8 : 1.2;
+
   return (
-    <Canvas shadows camera={{ position: [0, 3, 7], fov: 45 }}>
+    <Canvas
+      shadows
+      camera={{ position: [0, 3, 7], fov: 45 }}
+      dpr={dpr}
+      gl={{
+        antialias: false,
+        powerPreference: "low-power",
+        preserveDrawingBuffer: false,
+      }}
+    >
         <ambientLight intensity={0.5} color="#fff4e6" />
   
         <directionalLight position={[5, 5, 3]} intensity={2.5} color="#ffd9b3" />

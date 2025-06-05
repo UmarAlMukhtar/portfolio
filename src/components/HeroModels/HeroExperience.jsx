@@ -24,8 +24,20 @@ const RotatingGroup = ({ children, scale, position, rotation }) => {
 const HeroExperience = () => {
     const isTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+    // Lower pixel ratio for low-end devices
+    const dpr = isMobile ? 0.8 : isTablet ? 1 : 1.5;
+
   return (
-    <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
+    <Canvas
+      camera={{ position: [0, 0, 15], fov: 45 }}
+      dpr={dpr}
+      gl={{
+        antialias: false, // Disable antialias for performance
+        powerPreference: "low-power",
+        preserveDrawingBuffer: false,
+      }}
+    >
       <OrbitControls 
         enablePan={false} 
         enableZoom={!isTablet}   

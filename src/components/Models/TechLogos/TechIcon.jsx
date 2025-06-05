@@ -17,8 +17,18 @@ const TechIcon = ({model}) => {
         }
     }, [scene]);
 
+    // Lower pixel ratio for performance
+    const dpr = window.innerWidth < 768 ? 0.8 : 1.2;
+
   return (
-    <Canvas>
+    <Canvas
+      dpr={dpr}
+      gl={{
+        antialias: false,
+        powerPreference: "low-power",
+        preserveDrawingBuffer: false,
+      }}
+    >
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={1} />
         <Environment preset="city" />
