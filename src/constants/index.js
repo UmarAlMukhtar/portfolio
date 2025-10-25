@@ -144,20 +144,20 @@ const techStackIcons = [
 const expCards = [
   {
     review:
-      "As the CTO of IEDC, Umar transformed the tech workflow, introduced automation, and led several high-impact initiatives. His leadership and vision were key to our success.",
-    imgPath: "/images/exp1.png",
-    logoPath: "/images/logo1.png",
-    title: "CTO – IEDC, LBS College of Engineering",
-    date: "March 2024 – Present",
+    "Umar played a crucial role in building the Smart City Littering Detection System. His backend development and AI integration significantly improved the system's real-time performance.",
+    imgPath: "/images/exp3.png",
+    logoPath: "/images/logo3.png",
+    title: "Backend Developer – Smart City Project",
+    date: "December 2024 – Present",
     responsibilities: [
-      "Led the technology strategy and digital transformation initiatives for the IEDC.",
-      "Guided a team of budding developers to implement web-based platforms and tools.",
-      "Organized and mentored sessions on Git, debugging, and full-stack development for students.",
+      "Developed and integrated backend APIs for the Littering Detection and Alert Dashboard using Node.js and MongoDB.",
+      "Implemented AI models using YOLOv11 and OpenCV to detect and classify littering events.",
+      "Collaborated with the frontend team to deliver a real-time dashboard for city administrators.",
     ],
   },
   {
     review:
-      "Umar’s work on the Kasaroam tourism website demonstrated technical skill and a strong user-centered design approach. He contributed to key features that promoted local tourism.",
+    "Umar’s work on the Kasaroam tourism website demonstrated technical skill and a strong user-centered design approach. He contributed to key features that promoted local tourism.",
     imgPath: "/images/exp2.png",
     logoPath: "/images/logo2.png",
     title: "Web Developer – Kasaroam Tourism Platform",
@@ -170,15 +170,15 @@ const expCards = [
   },
   {
     review:
-      "Umar played a crucial role in building the Smart City Littering Detection System. His backend development and AI integration significantly improved the system's real-time performance.",
-    imgPath: "/images/exp3.png",
-    logoPath: "/images/logo3.png",
-    title: "Backend Developer – Smart City Project",
-    date: "December 2024 – Present",
+      "As the CTO of IEDC, Umar transformed the tech workflow, introduced automation, and led several high-impact initiatives. His leadership and vision were key to our success.",
+    imgPath: "/images/exp1.png",
+    logoPath: "/images/logo1.png",
+    title: "CTO – IEDC, LBS College of Engineering",
+    date: "March 2024 – Present",
     responsibilities: [
-      "Developed and integrated backend APIs for the Littering Detection and Alert Dashboard using Node.js and MongoDB.",
-      "Implemented AI models using YOLOv11 and OpenCV to detect and classify littering events.",
-      "Collaborated with the frontend team to deliver a real-time dashboard for city administrators.",
+      "Led the technology strategy and digital transformation initiatives for the IEDC.",
+      "Guided a team of budding developers to implement web-based platforms and tools.",
+      "Organized and mentored sessions on Git, debugging, and full-stack development for students.",
     ],
   },
 ];
