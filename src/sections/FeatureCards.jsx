@@ -1,5 +1,6 @@
 import React from 'react'
 import { abilities } from '../constants'
+import AnimatedCounter from '../components/AnimatedCounter'
 
 const FeatureCards = () => {
   return (
@@ -15,6 +16,9 @@ const FeatureCards = () => {
                     <p className='text-white-50 text-lg'>{desc}</p>
                 </div>
             ))}
+        </div>
+        <div className='mt-20 flex-center'>
+        <AnimatedCounter />
         </div>
     </div>
   )

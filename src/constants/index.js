@@ -8,27 +8,31 @@ const navLinks = [
     link: "#experience",
   },
   {
+    name: "Leadership",
+    link: "#leadership",
+  },
+  {
     name: "Skills",
     link: "#skills",
   },
 ];
 
 const words = [
-  { text: "Ideas", imgPath: "/images/ideas.svg" },
-  { text: "Concepts", imgPath: "/images/concepts.svg" },
-  { text: "Designs", imgPath: "/images/designs.svg" },
+  { text: "Products", imgPath: "/images/ideas.svg" },
+  { text: "Tools", imgPath: "/images/concepts.svg" },
+  { text: "Systems", imgPath: "/images/designs.svg" },
   { text: "Code", imgPath: "/images/code.svg" },
-  { text: "Ideas", imgPath: "/images/ideas.svg" },
-  { text: "Concepts", imgPath: "/images/concepts.svg" },
-  { text: "Designs", imgPath: "/images/designs.svg" },
+  { text: "Products", imgPath: "/images/ideas.svg" },
+  { text: "Tools", imgPath: "/images/concepts.svg" },
+  { text: "Systems", imgPath: "/images/designs.svg" },
   { text: "Code", imgPath: "/images/code.svg" },
 ];
 
 const counterItems = [
-  { value: 15, suffix: "+", label: "Years of Experience" },
-  { value: 200, suffix: "+", label: "Satisfied Clients" },
-  { value: 108, suffix: "+", label: "Completed Projects" },
-  { value: 90, suffix: "%", label: "Client Retention Rate" },
+  { value: 20, suffix: "+", label: "Projects Built" },
+  { value: 100, suffix: "+", label: "GitHub Repositories" },
+  { value: 4, suffix: "+", label: "Leadership Roles" },
+  { value: 5, suffix: "", label: "Hackathon Top 5 Winner" },
 ];
 
 const logoIconsList = [
@@ -70,18 +74,18 @@ const logoIconsList = [
 const abilities = [
   {
     imgPath: "/images/seo.png",
-    title: "Team Leadership & Collaboration",
-    desc: "Leading with purpose, collaborating with clarity, and driving results as a team.",
+    title: "Product-Focused Engineering",
+    desc: "Building projects with real users, practical workflows, and clear outcomes in mind.",
   },
   {
     imgPath: "/images/chat.png",
-    title: "Efficient Problem Solving",
-    desc: "Crafting effective, optimized solutions to real-world technical challenges.",
+    title: "AI-Assisted Development",
+    desc: "Using AI tools for faster planning, debugging, architecture, and product iteration.",
   },
   {
     imgPath: "/images/time.png",
-    title: "Technical Adaptability",
-    desc: "Quickly mastering new tools and technologies to stay ahead of the curve.",
+    title: "Technical Leadership",
+    desc: "Leading student tech initiatives, mentoring peers, and shipping community projects.",
   },
 ];
 
@@ -144,49 +148,105 @@ const techStackIcons = [
 const expCards = [
   {
     review:
-    "Umar played a crucial role in building the Smart City Littering Detection System. His backend development and AI integration significantly improved the system's real-time performance.",
+      "Umar works on backend systems and practical software development at Mulearn Foundation, contributing to real-world technical workflows and product features.",
+    imgPath: "/images/mulearn.png",
+    logoPath: "/images/mulearn_logo.png",
+    title: "Backend Intern - Mulearn Foundation",
+    date: "January 2026 - Present",
+    responsibilities: [
+      "Contributed to backend development tasks for Mulearn Foundation projects.",
+      "Worked with APIs, databases, debugging, and production-oriented development workflows.",
+      "Improved understanding of scalable backend systems, collaboration, and real-world software delivery.",
+    ],
+  },
+  {
+    review:
+      "Umar contributed to backend systems and AI integration for a Smart City littering detection and alert dashboard.",
     imgPath: "/images/exp3.png",
     logoPath: "/images/logo3.png",
-    title: "Backend Developer – Smart City Project",
-    date: "December 2024 – Present",
+    title: "Backend Developer - Smart City Project",
+    date: "December 2024 - Present",
     responsibilities: [
-      "Developed and integrated backend APIs for the Littering Detection and Alert Dashboard using Node.js and MongoDB.",
-      "Implemented AI models using YOLOv11 and OpenCV to detect and classify littering events.",
-      "Collaborated with the frontend team to deliver a real-time dashboard for city administrators.",
+      "Developed backend APIs for a littering detection and alert dashboard.",
+      "Worked with Node.js, MongoDB, YOLO, and OpenCV for real-time event detection.",
+      "Collaborated with frontend developers to support city-administration workflows.",
     ],
   },
   {
     review:
-    "Umar’s work on the Kasaroam tourism website demonstrated technical skill and a strong user-centered design approach. He contributed to key features that promoted local tourism.",
+      "Umar worked on Kasaroam, a tourism-focused web platform, contributing to frontend development and user-facing features.",
     imgPath: "/images/exp2.png",
     logoPath: "/images/logo2.png",
-    title: "Web Developer – Kasaroam Tourism Platform",
-    date: "January 2025 – Present",
+    title: "Web Developer - Kasaroam",
+    date: "January 2025 - Present",
     responsibilities: [
-      "Built and deployed key features for the Kasaroam tourism web app using HTML, CSS, and JavaScript.",
-      "Collaborated with a team of students to design an interactive and visually appealing user interface.",
-      "Focused on mobile responsiveness and performance optimization.",
+      "Built and improved user-facing sections of the Kasaroam tourism platform.",
+      "Worked on responsive layouts, visual design, and frontend interactions.",
+      "Collaborated with a student-led team to deliver a public-facing web project.",
     ],
   },
   {
     review:
-      "As the CTO of IEDC, Umar transformed the tech workflow, introduced automation, and led several high-impact initiatives. His leadership and vision were key to our success.",
-    imgPath: "/images/exp1.png",
-    logoPath: "/images/logo1.png",
-    title: "CTO – IEDC, LBS College of Engineering",
-    date: "March 2024 – Present",
+      "Umar built FocusFlow during the Codex Community Hackathon Kochi 2026, turning an idea into an open-source desktop product.",
+    imgPath: "/images/codex1.png",
+    logoPath: "/images/codex.png",
+    title: "Top 5 Winner - Codex Community Hackathon Kochi 2026",
+    date: "2026",
     responsibilities: [
-      "Led the technology strategy and digital transformation initiatives for the IEDC.",
-      "Guided a team of budding developers to implement web-based platforms and tools.",
-      "Organized and mentored sessions on Git, debugging, and full-stack development for students.",
+      "Built FocusFlow, an open-source desktop app for focused screen-recording edits.",
+      "Implemented click tracking, automatic zoom/pan timelines, and FFmpeg-based export.",
+      "Used Rust, Tauri, React, and AI-assisted development workflows to ship quickly.",
+    ],
+  },
+];
+
+const leadershipCards = [
+  {
+    title: "Technology Lead / CTO - IEDC LBSCEK",
+    date: "January 2025 - December 2025",
+    desc: "Leading technology initiatives, student developer workflows, and digital systems for IEDC LBSCEK.",
+    points: [
+      "Led web platforms, event systems, and internal technical initiatives.",
+      "Mentored students on Git, debugging, full-stack development, and AI-assisted building.",
+      "Supported student innovation activities, workshops, and product-building efforts.",
+    ],
+  },
+  {
+    title: "Chair - IEEE Sensors Council SBC LBSCEK",
+    date: "November 2026 - Present",
+    desc: "Leading a student branch chapter focused on Sensors, IoT, automation, and technical awareness.",
+    points: [
+      "Planning workshops, technical talks, quizzes, and awareness sessions.",
+      "Coordinating documentation, speaker outreach, and event execution.",
+      "Building participation around Sensors Council activities at LBSCEK.",
+    ],
+  },
+  {
+    title: "Webmaster - IEEE IA/IE/PELS JT Chapter Kerala",
+    date: "February 2026 - Present",
+    desc: "Managing web and digital presence for IEEE IA/IE/PELS Joint Chapter Kerala.",
+    points: [
+      "Supported website maintenance and technical updates.",
+      "Worked on improving digital visibility and reliability.",
+      "Handled web-related tasks for chapter activities and documentation.",
+    ],
+  },
+  {
+    title: "IEEE IAS SBC LBSCEK - Student Chapter Contributor",
+    date: "July 2025 - March 2026",
+    desc: "Contributed to IEEE IAS student branch activities, website work, and chapter initiatives.",
+    points: [
+      "Supported IEEE IAS SBC digital and event activities.",
+      "Worked on documentation, website improvements, and award-related submissions.",
+      "Contributed to student-led technical community building.",
     ],
   },
 ];
 
 const expLogos = [
   {
-    name: "logo1",
-    imgPath: "/images/logo1.png",
+    name: "Mulearn",
+    imgPath: "/images/mulearn_logo.jpg",
   },
   {
     name: "logo2",
@@ -195,6 +255,10 @@ const expLogos = [
   {
     name: "logo3",
     imgPath: "/images/logo3.png",
+  },
+  {
+    name: "logo4",
+    imgPath: "/images/logo4.png",
   },
 ];
 
@@ -245,14 +309,14 @@ const testimonials = [
 
 const socialImgs = [
   {
-    name: "insta",
-    url: "https://www.instagram.com/umaralmukhtar_/",
-    imgPath: "/images/insta.png",
+    name: "github",
+    url: "https://github.com/UmarAlMukhtar",
+    imgPath: "/images/github.png",
   },
   {
-    name: "fb",
-    url: "https://www.facebook.com/umaralmukhtar.ibrahim/",
-    imgPath: "/images/fb.png",
+    name: "linkedin",
+    url: "https://www.linkedin.com/in/umaralmukhtaribrahimkutty/",
+    imgPath: "/images/linkedin.png",
   },
   {
     name: "x",
@@ -260,9 +324,9 @@ const socialImgs = [
     imgPath: "/images/x.png",
   },
   {
-    name: "linkedin",
-    url: "https://www.linkedin.com/in/umaralmukhtaribrahimkutty/",
-    imgPath: "/images/linkedin.png",
+    name: "insta",
+    url: "https://www.instagram.com/umaralmukhtar_/",
+    imgPath: "/images/insta.png",
   },
 ];
 
@@ -272,6 +336,7 @@ export {
   logoIconsList,
   counterItems,
   expCards,
+  leadershipCards,
   expLogos,
   testimonials,
   socialImgs,
