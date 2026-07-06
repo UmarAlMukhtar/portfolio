@@ -7,7 +7,7 @@ import gsap from "gsap";
 const Hero = () => {
   useGSAP(() => {
     gsap.fromTo(
-      ".hero-text h1",
+      ".hero-text h1, .hero-text h2",
       {
         y: 50,
         opacity: 0,
@@ -25,14 +25,15 @@ const Hero = () => {
   return (
     <section id="hero" className="relative overflow-hidden">
       <div className="absolute top-0 left-0 z-10">
-        <img src="/images/bg.png" alt="background" />
+        <img src="/images/bg.png" alt="" />
       </div>
 
       <div className="hero-layout">
         <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
           <div className="flex flex-col gap-7">
             <div className="hero-text">
-              <h1>
+              <h1>Umar Al Mukhtar</h1>
+              <h2>
                 Building
                 <span className="slide">
                   <span className="wrapper">
@@ -51,15 +52,14 @@ const Hero = () => {
                     ))}
                   </span>
                 </span>
-              </h1>
-              <h1>with code, AI,</h1>
-              <h1>and product thinking</h1>
+              </h2>
+              <h2>with code, AI, and product thinking</h2>
             </div>
 
             <p className="text-white-50 md:text-xl relative z-10 pointer-events-none max-w-3xl">
-              Hi, I'm Umar Al Mukhtar — a final-year Computer Science student,
-              full-stack developer, and AI product builder working on developer
-              tools, open-source projects, and community tech initiatives.
+              Hi, I’m Umar Al Mukhtar, a full-stack developer and AI-focused
+              software builder working on practical web products, open-source
+              tools, and community-first technology initiatives.
             </p>
 
             <Button
