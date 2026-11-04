@@ -1,3 +1,4 @@
+# Keep the portfolio and its rendering assets available to crawlers.
 User-agent: *
 Allow: /
 

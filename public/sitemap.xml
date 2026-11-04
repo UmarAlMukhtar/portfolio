@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
     <loc>https://umaralmukhtar.dev/</loc>
-    <priority>1.0</priority>
+    <lastmod>2026-11-04</lastmod>
+    <image:image>
+      <image:loc>https://umaralmukhtar.dev/images/project1.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://umaralmukhtar.dev/images/project2.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://umaralmukhtar.dev/images/project3.png</image:loc>
+    </image:image>
   </url>
 </urlset>

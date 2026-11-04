@@ -3,5 +3,13 @@
   "framework": "vite",
   "installCommand": "npm ci",
   "buildCommand": "npm run lint -- --max-warnings=0 && npm run build && npm test",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "umaralmukhtar.vercel.app" }],
+      "destination": "https://umaralmukhtar.dev/:path*",
+      "permanent": true
+    }
+  ]
 }
