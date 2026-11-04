@@ -1,10 +1,58 @@
 :root {
+  --scrollbar-track: #f4f2ed;
+  --scrollbar-thumb: #858178;
+  --scrollbar-hover: #56534d;
+  color-scheme: light;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-padding-top: 92px;
+}
+
+:root:has(.portfolio-page[data-theme="dark"]) {
+  --scrollbar-track: #121212;
+  --scrollbar-thumb: #77746e;
+  --scrollbar-hover: #aaa7a0;
+  color-scheme: dark;
+}
+
+@media (forced-colors: none) {
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  }
+
+  @supports selector(::-webkit-scrollbar) {
+    html {
+      /* Native properties override the rounded thumb in Chromium. */
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+
+    html::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    html::-webkit-scrollbar-track,
+    html::-webkit-scrollbar-corner {
+      background: var(--scrollbar-track);
+    }
+
+    html::-webkit-scrollbar-thumb {
+      min-height: 48px;
+      border: 3px solid var(--scrollbar-track);
+      border-radius: 999px;
+      background: var(--scrollbar-thumb);
+      background-clip: padding-box;
+    }
+
+    html::-webkit-scrollbar-thumb:hover {
+      background-color: var(--scrollbar-hover);
+    }
+  }
 }
 
 * {
