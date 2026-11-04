@@ -35,8 +35,17 @@ export function prepareTypedText(target) {
     target.style.height = size.height;
     locked = false;
   };
+  const first = nodes.find(({ original }) => original.trim());
+  let startCaret = { x: bounds.left + window.scrollX, y: bounds.top + bounds.height / 2 + window.scrollY };
+  if (first) {
+    range.setStart(first.node, first.original.search(/\S/u));
+    range.collapse(true);
+    const rect = range.getBoundingClientRect();
+    startCaret = { x: rect.left + window.scrollX, y: rect.top + rect.height * 0.65 + window.scrollY };
+  }
   return {
     length,
+    startCaret,
     start() {
       target.style.width = `${bounds.width}px`;
       target.style.height = `${bounds.height}px`;

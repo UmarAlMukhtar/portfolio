@@ -53,3 +53,7 @@ The [production readiness report](docs/production-readiness.md) records the fina
 ## Development dependency security
 
 ESLint 10 and its compatible React plugins use the patched minimatch through an ESLint-scoped npm override. Remove the override once ESLint and its configuration packages require minimatch 11.0.1 or newer directly. The lint-toolchain test verifies that JavaScript, JSX hooks, refresh exports, and output ignores still work with this override. Existing hooks rule severities are preserved explicitly rather than enabling the new plugin's additional compiler rules.
+
+## Cursor synchronization check
+
+`tests/browser/swarm-sync.js` exports `checkSwarmSync(duration)` for a real-browser run during loading and scroll-triggered builds. It checks actual rendered tool tips against frame corners and line endpoints, and fails above 1.5px or when no active drawing was sampled. Capture while the intro ends, then scroll or navigate to Work to cover the pen and duplicate tools. It is a browser probe, separate from the Node tests run by `npm test`.

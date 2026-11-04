@@ -94,6 +94,10 @@ export function runSwarmBuild(page) {
     agent.setX = gsap.quickSetter(agent.cursor, "x", "px");
     agent.setY = gsap.quickSetter(agent.cursor, "y", "px");
     agent.setRotation = gsap.quickSetter(agent.cursor, "rotation", "deg");
+    agent.setFrameX = gsap.quickSetter(agent.frame, "x", "px");
+    agent.setFrameY = gsap.quickSetter(agent.frame, "y", "px");
+    agent.setGuideX = gsap.quickSetter(agent.guides[1], "x", "px");
+    agent.setGuideY = gsap.quickSetter(agent.guides[0], "y", "px");
     agent.setX(agent.x);
     agent.setY(agent.y);
   });
@@ -109,6 +113,8 @@ export function runSwarmBuild(page) {
     agent.component = task.component;
     owners.set(task.component, agent);
     agent.element.dataset.busy = "true";
+    agent.goal.x = agent.x;
+    agent.goal.y = agent.y;
     const target = task.target;
     const kind = target.dataset.buildPiece;
     const container = task.container;
@@ -116,7 +122,8 @@ export function runSwarmBuild(page) {
       gsap.set(container, { visibility: "visible" });
       if (!container.matches(".site-header")) container.inert = false;
     }
-    let rect = target.getBoundingClientRect();
+    const bounds = target.getBoundingClientRect();
+    let rect = bounds;
     if (kind === "text") {
       const range = document.createRange();
       range.selectNodeContents(target);
@@ -127,8 +134,25 @@ export function runSwarmBuild(page) {
     const y = rect.top + window.scrollY;
     const width = Math.max(2, rect.width);
     const height = Math.max(2, rect.height);
+    const origin = { x: bounds.left + window.scrollX, y: bounds.top + bounds.height / 2 + window.scrollY };
+    const heading = kind === "text" && Boolean(target.closest("h1,h2,h3"));
+    const scale = heading ? 0.7 : 1;
+    const drawX = origin.x + (x - origin.x) * scale;
+    const drawY = origin.y + (y - origin.y) * scale;
+    const drawing = { x: drawX, y: drawY, width: 2, height: 2 };
     const frame = agent.frame;
-    agent.element.dataset.swarmTool = "arrow";
+    const updateFrame = () => {
+      agent.setFrameX(drawing.x);
+      agent.setFrameY(drawing.y);
+      agent.setGuideX(drawing.x);
+      agent.setGuideY(drawing.y);
+      frame.style.width = `${drawing.width}px`;
+      frame.style.height = `${drawing.height}px`;
+      agent.badge.textContent = `${kind === "duplicate" ? "⌥ · " : ""}${Math.round(drawing.width)} × ${Math.round(drawing.height)}`;
+      agent.goal.x = drawing.x + drawing.width;
+      agent.goal.y = drawing.y + drawing.height;
+    };
+    agent.element.dataset.swarmTool = kind === "duplicate" ? "duplicate" : "arrow";
     const timeline = gsap.timeline({ onComplete: () => {
       task.state = "done";
       target.dataset.buildTaskState = "done";
@@ -164,73 +188,79 @@ export function runSwarmBuild(page) {
       }
     }
     const travelTime = Math.min(0.65, 0.2 + Math.hypot(agent.x - x, agent.y - y) / 2200);
-    timeline.to(agent.goal, { x, y, duration: travelTime, ease: "power2.inOut" });
-    timeline.call(() => { agent.working = true; agent.element.dataset.swarmTool = "box"; });
-    timeline.set(frame, { x, y, width: 1, height: 1, backgroundColor: "rgba(100,100,100,0.07)", autoAlpha: 1 });
-    timeline.set(agent.guides[0], { x: 0, y, width: page.clientWidth, autoAlpha: 0.5 }, "<");
-    timeline.set(agent.guides[1], { x, y: window.scrollY, height: window.innerHeight, autoAlpha: 0.5 }, "<");
-    timeline.to(frame, {
-      width, height, duration: 0.32, ease: "power2.inOut",
-      onUpdate: () => {
-        const w = Math.round(parseFloat(frame.style.width));
-        const h = Math.round(parseFloat(frame.style.height));
-        agent.badge.textContent = `${kind === "duplicate" ? "⌥ · " : ""}${w} × ${h}`;
-      },
-    });
-    timeline.to(agent.goal, { x: x + width, y: y + height, duration: 0.32, ease: "power2.inOut" }, "<");
-    timeline.set(target, { autoAlpha: 1 });
+    timeline.to(agent.goal, { x: drawX, y: kind === "line" ? y + rect.height / 2 : drawY, duration: travelTime, ease: "power2.inOut" });
+    timeline.call(() => { agent.working = true; });
+
+    if (kind !== "line") {
+      timeline.call(() => { agent.element.dataset.swarmTool = kind === "duplicate" ? "duplicate" : "box"; });
+      timeline.set(frame, { x: drawX, y: drawY, width: 2, height: 2, backgroundColor: "rgba(100,100,100,0.07)", autoAlpha: 1 });
+      timeline.set(agent.guides[0], { x: 0, y: drawY, width: page.clientWidth, autoAlpha: 0.5 }, "<");
+      timeline.set(agent.guides[1], { x: drawX, y: window.scrollY, height: window.innerHeight, autoAlpha: 0.5 }, "<");
+      timeline.to(drawing, { width: width * scale, height: height * scale, duration: 0.32, ease: "power2.inOut", onUpdate: updateFrame });
+      if (kind !== "text") timeline.set(target, { autoAlpha: 1 });
+    }
 
     if (kind === "text") {
       const typing = prepareTypedText(target);
       task.typing = typing;
       const counter = { count: 0 };
-      const heading = Boolean(target.closest("h1,h2,h3"));
-      const scale = heading ? 0.7 : 1;
       const duration = Math.min(1.5, Math.max(0.25, typing.length / 85));
       timeline.set(target, { scale });
+      timeline.call(() => { agent.element.dataset.swarmTool = "arrow"; });
+      timeline.to(agent.goal, {
+        x: origin.x + (typing.startCaret.x - origin.x) * scale,
+        y: origin.y + (typing.startCaret.y - origin.y) * scale,
+        duration: 0.12, ease: "power2.inOut",
+      });
       timeline.call(() => {
         agent.element.dataset.swarmTool = "text";
         target.dataset.buildPhase = "typing";
         typing.start();
       });
+      timeline.set(target, { autoAlpha: 1 });
       timeline.to(counter, {
         count: typing.length, duration, ease: "none",
         onUpdate: () => {
           const caret = typing.render(counter.count);
           if (!caret) return;
-          agent.goal.x = x + (caret.x - x) * scale;
-          agent.goal.y = y + height / 2 + (caret.y - y - height / 2) * scale;
+          agent.goal.x = origin.x + (caret.x - origin.x) * scale;
+          agent.goal.y = origin.y + (caret.y - origin.y) * scale;
         },
         onComplete: () => typing.finishText(),
       });
       if (heading) {
+        timeline.call(() => { agent.element.dataset.swarmTool = "arrow"; });
+        timeline.to(agent.goal, { x: drawX + width * scale, y: drawY + height * scale, duration: 0.12, ease: "power2.inOut" });
         timeline.to(target, {
           scale: 1, duration: 0.22, ease: "power2.out",
-          onStart: () => { target.dataset.buildPhase = "growing"; },
+          onStart: () => { target.dataset.buildPhase = "growing"; agent.element.dataset.swarmTool = "resize"; },
         });
+        timeline.to(drawing, { x, y, width, height, duration: 0.22, ease: "power2.out", onUpdate: updateFrame }, "<");
       }
       timeline.call(() => { typing.releaseSize(); target.dataset.buildPhase = "done"; });
     } else if (kind === "media") {
+      timeline.call(() => { agent.element.dataset.swarmTool = "media"; });
+      timeline.to(agent.goal, { x: x + width, y, duration: 0.12, ease: "power2.inOut" });
       timeline.fromTo(target, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0)", duration: 0.55, ease: "none" });
-      timeline.fromTo(agent.goal, { x: x + width, y }, { y: y + height, duration: 0.55, ease: "none" }, "<");
+      timeline.to(agent.goal, { y: y + height, duration: 0.55, ease: "none" }, "<");
     } else if (kind === "line") {
-      timeline.fromTo(target, { scaleX: 0, transformOrigin: "left center" }, { scaleX: 1, duration: 0.32 });
+      timeline.call(() => { agent.element.dataset.swarmTool = "pen"; target.dataset.buildPhase = "drawing"; });
+      timeline.set(target, { autoAlpha: 1, scaleX: 0, transformOrigin: "left center" });
+      timeline.to(target, { scaleX: 1, duration: 0.32, ease: "none" });
+      timeline.to(agent.goal, { x: x + width, y: y + rect.height / 2, duration: 0.32, ease: "none" }, "<");
+      timeline.call(() => { target.dataset.buildPhase = "done"; });
     }
     const adjusts = width > (touch ? 180 : 100) && height > 20
       && (target.closest("h1,h2,h3") || ["box", "duplicate", "media"].includes(kind));
     if (adjusts) {
       timeline.call(() => {
         target.dataset.buildPhase = "adjusting";
-        agent.element.dataset.swarmTool = "box";
+        agent.element.dataset.swarmTool = "arrow";
       });
-      timeline.set(agent.guides[0], { y: y + height });
-      timeline.to(agent.goal, { x: x + width + 3, y: y + height + 2, duration: 0.14 });
-      timeline.to(frame, { width: width + 3, height: height + 2, duration: 0.14 }, "<");
-      timeline.to(target, { x: 2, y: -1, duration: 0.14 }, "<");
-      timeline.call(() => { agent.element.dataset.swarmTool = "arrow"; });
-      timeline.to(agent.goal, { x: x + width, y: y + height, duration: 0.2, ease: "power2.out" });
-      timeline.to(frame, { width, height, duration: 0.2, ease: "power2.out" }, "<");
-      timeline.to(target, { x: 0, y: 0, duration: 0.2, ease: "power2.out" }, "<");
+      timeline.to(target, { x: 2, y: -1, duration: 0.14 });
+      timeline.to(drawing, { x: x + 2, y: y - 1, duration: 0.14, onUpdate: updateFrame }, "<");
+      timeline.to(target, { x: 0, y: 0, duration: 0.2, ease: "power2.out" });
+      timeline.to(drawing, { x, y, duration: 0.2, ease: "power2.out", onUpdate: updateFrame }, "<");
       timeline.call(() => { target.dataset.buildPhase = "done"; });
     }
     timeline.to(frame, { backgroundColor: "transparent", duration: 0.08 });
@@ -308,54 +338,63 @@ export function runSwarmBuild(page) {
     const flock = agents.map(({ x, y, vx, vy }) => ({ x, y, vx, vy }));
     let regrouped = false;
     agents.forEach((agent, index) => {
-      const working = agent.busy && agent.working;
-      const stiffness = working ? 260 : (agent.busy || agent.staging) ? 65 : agent.returning ? 10 : 6;
-      const damping = working ? 30 : (agent.busy || agent.staging) ? 15 : agent.returning ? 6 : 4.3;
+      // Tool actions share the timeline's position; spring chasing makes them lag the drawing.
+      if (agent.busy) {
+        const vx = (agent.goal.x - agent.x) / dt;
+        agent.x = agent.goal.x;
+        agent.y = agent.goal.y;
+        agent.vx = agent.vy = 0;
+        agent.rotation = agent.working ? 0 : agent.rotation + (Math.max(-22, Math.min(22, vx * 0.045)) - agent.rotation) * Math.min(1, dt * 8);
+        agent.setX(agent.x);
+        agent.setY(agent.y);
+        agent.setRotation(agent.rotation);
+        return;
+      }
+      const stiffness = agent.staging ? 65 : agent.returning ? 10 : 6;
+      const damping = agent.staging ? 15 : agent.returning ? 6 : 4.3;
       const wanderX = Math.sin(time * 0.55 + index * 2.4) * 60 + Math.cos(time * 0.81 + index) * 20;
       const wanderY = Math.sin(time * 0.43 + index * 1.7) * 45 + Math.cos(time * 0.7 + index) * 15;
-      const goalX = agent.busy ? agent.goal.x : agent.staging ? agent.staging.x : Math.max(40, Math.min(window.innerWidth - 40, cx + wanderX));
-      const goalY = agent.busy ? agent.goal.y : agent.staging ? agent.staging.y : Math.max(window.scrollY + 100, Math.min(window.scrollY + window.innerHeight - 40, cy + wanderY));
+      const goalX = agent.staging ? agent.staging.x : Math.max(40, Math.min(window.innerWidth - 40, cx + wanderX));
+      const goalY = agent.staging ? agent.staging.y : Math.max(window.scrollY + 100, Math.min(window.scrollY + window.innerHeight - 40, cy + wanderY));
       let ax = (goalX - agent.x) * stiffness - agent.vx * damping;
       let ay = (goalY - agent.y) * stiffness - agent.vy * damping;
-      if (!working) {
-        flock.forEach((neighbor, other) => {
-          if (index === other) return;
-          const dx = agent.x - neighbor.x;
-          const dy = agent.y - neighbor.y;
-          const distance = Math.max(1, Math.hypot(dx, dy));
-          if (distance < 50) {
-            const push = (1 - distance / 50) * 350;
-            ax += dx / distance * push;
-            ay += dy / distance * push;
-          }
-          if (!agent.busy && distance < 200) {
-            ax += (neighbor.vx - agent.vx) * 0.12;
-            ay += (neighbor.vy - agent.vy) * 0.12;
-          }
-        });
-        if (followingMouse && !agent.busy) {
-          const dx = agent.x - pointer.x;
-          const dy = agent.y - window.scrollY - pointer.y;
-          const distance = Math.max(1, Math.hypot(dx, dy));
-          if (distance < 55) {
-            ax += dx / distance * 450;
-            ay += dy / distance * 450;
-          }
+      flock.forEach((neighbor, other) => {
+        if (index === other) return;
+        const dx = agent.x - neighbor.x;
+        const dy = agent.y - neighbor.y;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        if (distance < 50) {
+          const push = (1 - distance / 50) * 350;
+          ax += dx / distance * push;
+          ay += dy / distance * push;
         }
-        ax += Math.sin(time * 1.1 + index * 2.4) * 35;
-        ay += Math.cos(time * 0.8 + index * 1.7) * 35;
+        if (distance < 200) {
+          ax += (neighbor.vx - agent.vx) * 0.12;
+          ay += (neighbor.vy - agent.vy) * 0.12;
+        }
+      });
+      if (followingMouse) {
+        const dx = agent.x - pointer.x;
+        const dy = agent.y - window.scrollY - pointer.y;
+        const distance = Math.max(1, Math.hypot(dx, dy));
+        if (distance < 55) {
+          ax += dx / distance * 450;
+          ay += dy / distance * 450;
+        }
       }
+      ax += Math.sin(time * 1.1 + index * 2.4) * 35;
+      ay += Math.cos(time * 0.8 + index * 1.7) * 35;
       agent.vx += ax * dt;
       agent.vy += ay * dt;
       const speed = Math.hypot(agent.vx, agent.vy);
-      const maxSpeed = working ? 2000 : agent.busy ? 1400 : (agent.returning ? 1100 : 500) + Math.min(900, Math.abs(scrollSpeed) * 0.2);
+      const maxSpeed = (agent.returning ? 1100 : 500) + Math.min(900, Math.abs(scrollSpeed) * 0.2);
       if (speed > maxSpeed) {
         agent.vx *= maxSpeed / speed;
         agent.vy *= maxSpeed / speed;
       }
       agent.x += agent.vx * dt;
       agent.y += agent.vy * dt;
-      const tilt = working ? 0 : Math.max(-22, Math.min(22, agent.vx * 0.045));
+      const tilt = Math.max(-22, Math.min(22, agent.vx * 0.045));
       agent.rotation += (tilt - agent.rotation) * Math.min(1, dt * 8);
       agent.setX(agent.x);
       agent.setY(agent.y);

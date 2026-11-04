@@ -54,3 +54,11 @@ Measured windows are diagnostics on this computer, not a guarantee for every dev
 2. Publish only `dist/` on a static HTTPS host at the canonical domain's root; follow the [Vite static deployment guide](https://vite.dev/guide/static-deploy.html). `vite preview` is only for local verification.
 3. Configure HTML revalidation, immutable hashed-asset caching, HTTPS redirection and compression using the host's settings.
 4. Verify the deployed page, project images, resume download, robots/sitemap, phone motion and share preview against the public URL. Keep the prior deployment available for rollback.
+
+## Cursor synchronization follow-up
+
+- Reproduced the previous live build failing the rendered-geometry probe with up to 935px of cursor/frame separation. The frame animated directly while the cursor spring chased its target; SVG hotspots were also offset.
+- Active jobs now use the timeline position directly, while idle agents retain flocking. A shared drawing rectangle drives selection frame geometry, badges, alignment guides, and resize/duplicate cursor positions.
+- Lines draw once under a pen cursor. Text uses an I-beam at cached caret positions; headings resize with their frames after typing. Duplicate operations use a duplicate cursor. Tool hotspots remain correct in both themes and at touch sizes.
+- Added `tests/browser/swarm-sync.js`, exercised against the old live build (failed) and the fixed version (passed). Brave desktop and the in-app browser measured about 0.022px maximum frame/tip error; Brave 390px touch emulation measured 0.022px while sampling all seven tool states. This is browser emulation, not physical-phone proof.
+- Skip restored all 111 text blocks with zero mismatches, no hidden rendered pieces, and no inert sections; dark pen fill is white.

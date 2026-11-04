@@ -345,14 +345,24 @@ img {
   opacity: 0;
   filter: drop-shadow(0 1px 2px rgb(0 0 0 / 12%));
   will-change: transform, opacity;
+  transform-origin: 0 0;
 }
 
 .scroll-swarm__cursor svg {
   display: none;
-  width: 17px;
-  height: 21px;
+  width: 20px;
+  height: 20px;
   overflow: visible;
   flex: none;
+  transform: translate(-50%, -50%);
+}
+
+.scroll-swarm__cursor :is(.scroll-swarm__arrow, .scroll-swarm__duplicate) {
+  transform: translate(-8.333333%, -6.25%);
+}
+
+.scroll-swarm__cursor .scroll-swarm__pen {
+  transform: translate(-8.333333%, -8.333333%);
 }
 
 .scroll-swarm__cursor path,
@@ -364,17 +374,29 @@ img {
   stroke-width: 1.8;
 }
 
-.scroll-swarm__cursor .scroll-swarm__arrow path {
+.scroll-swarm__cursor :is(.scroll-swarm__arrow, .scroll-swarm__duplicate, .scroll-swarm__pen) path {
   fill: var(--cursor-color);
   stroke: var(--bg);
   stroke-width: 1.5;
 }
 
+.scroll-swarm__cursor .scroll-swarm__duplicate path:first-child {
+  fill: var(--bg);
+  stroke: var(--cursor-color);
+}
+
+.scroll-swarm__cursor .scroll-swarm__pen :is(.scroll-swarm__pen-detail, circle) {
+  fill: none;
+  stroke: var(--bg);
+  stroke-width: 1.2;
+}
+
 .scroll-swarm__agent[data-swarm-tool="arrow"] .scroll-swarm__arrow,
 .scroll-swarm__agent[data-swarm-tool="box"] .scroll-swarm__crosshair,
-.scroll-swarm__agent[data-swarm-tool="duplicate"] .scroll-swarm__crosshair,
+.scroll-swarm__agent[data-swarm-tool="duplicate"] .scroll-swarm__duplicate,
 .scroll-swarm__agent[data-swarm-tool="media"] .scroll-swarm__crosshair,
-.scroll-swarm__agent[data-swarm-tool="line"] .scroll-swarm__crosshair,
+.scroll-swarm__agent[data-swarm-tool="pen"] .scroll-swarm__pen,
+.scroll-swarm__agent[data-swarm-tool="resize"] .scroll-swarm__resize,
 .scroll-swarm__agent[data-swarm-tool="text"] .scroll-swarm__ibeam {
   display: block;
 }
@@ -435,7 +457,7 @@ img {
 
 @media (hover: none), (pointer: coarse) {
   .scroll-swarm__cursor { filter: none; }
-  .scroll-swarm__cursor svg { width: 14px; height: 18px; }
+  .scroll-swarm__cursor svg { width: 17px; height: 17px; }
   .scroll-build-skip {
     top: auto;
     bottom: max(14px, env(safe-area-inset-bottom));
