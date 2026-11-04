@@ -37,7 +37,7 @@ The canonical URL, Open Graph URLs, structured data, `public/robots.txt`, and `p
 
 The build pre-renders the existing navigation, portfolio and footer into the HTML response using `scripts/prerender.mjs`. Content is available without JavaScript; the animated app replaces it before showing the loader. Keep the prerender placeholder and startup visibility guard together when changing the entry point.
 
-After a significant content or structured-data update, update both the sitemap's `lastmod` and the profile's `dateModified` in `index.html`. The sitemap contains the canonical document and project images; section anchors are not separate pages. The old `umaralmukhtar.vercel.app` hostname redirects permanently to the canonical host. Submit `https://umaralmukhtar.dev/sitemap.xml` in Google Search Console to monitor discovery and indexing.
+After a significant content or structured-data update, update both the sitemap's `lastmod` and the profile's ISO 8601 `dateModified` timestamp (including time and timezone) in `index.html`. The sitemap contains the canonical document and project images; section anchors are not separate pages. The old `umaralmukhtar.vercel.app` hostname redirects permanently to the canonical host. Submit `https://umaralmukhtar.dev/sitemap.xml` in Google Search Console to monitor discovery and indexing.
 
 Configure the host to revalidate HTML and cache hashed `/assets/` files for a year with `immutable`. Use normal revalidation for stable asset names such as `resume.pdf` and project images. Enable the host's HTTPS redirect and compression, then check the deployed origin for missing assets and confirm its share preview. These host settings cannot be verified against a local preview.
 

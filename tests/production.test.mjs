@@ -67,7 +67,10 @@ test('crawler discovery uses only the canonical document and real modification d
   assert.deepEqual([...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((match) => match[1]), [canonical]);
   const modified = sitemap.match(/<lastmod>(\d{4}-\d{2}-\d{2})<\/lastmod>/)?.[1];
   assert.equal(new Date(modified).toISOString().slice(0, 10), modified);
-  assert.ok(html.includes(`"dateModified": "${modified}"`));
+  const profileModified = html.match(/"dateModified": "([^"]+)"/)?.[1];
+  assert.match(profileModified, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$/);
+  assert.ok(Number.isFinite(Date.parse(profileModified)));
+  assert.equal(profileModified.slice(0, 10), modified);
   assert.doesNotMatch(sitemap, /<priority>|<changefreq>|<loc>[^<]*#/);
   for (const match of sitemap.matchAll(/<image:loc>(.*?)<\/image:loc>/g)) {
     const image = new URL(match[1]);
