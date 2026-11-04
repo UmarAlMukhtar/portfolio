@@ -6,6 +6,12 @@
   "outputDirectory": "dist",
   "redirects": [
     {
+      "source": "/",
+      "has": [{ "type": "host", "value": "umaralmukhtar.vercel.app" }],
+      "destination": "https://umaralmukhtar.dev/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [{ "type": "host", "value": "umaralmukhtar.vercel.app" }],
       "destination": "https://umaralmukhtar.dev/:path*",

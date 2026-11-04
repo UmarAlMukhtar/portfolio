@@ -99,8 +99,12 @@ test('profile structured data links the page, website, and visible social identi
 
 test('the old production hostname redirects permanently without redirecting previews or the canonical host', async () => {
   const config = JSON.parse(await readFile(new URL('../vercel.json', import.meta.url), 'utf8'));
-  const redirect = config.redirects.find((item) => item.has?.some((condition) => condition.value === 'umaralmukhtar.vercel.app'));
+  const redirect = config.redirects.find((item) => item.source === '/:path*');
   assert.equal(redirect.permanent, true);
   assert.equal(redirect.destination, 'https://umaralmukhtar.dev/:path*');
   assert.deepEqual(redirect.has, [{ type: 'host', value: 'umaralmukhtar.vercel.app' }]);
+  const homepage = config.redirects.find((item) => item.source === '/');
+  assert.equal(homepage?.destination, 'https://umaralmukhtar.dev/');
+  assert.equal(homepage.permanent, true);
+  assert.deepEqual(homepage.has, redirect.has);
 });
