@@ -4,16 +4,16 @@ const navLinks = [
     link: "#work",
   },
   {
+    name: "About",
+    link: "#about",
+  },
+  {
     name: "Experience",
     link: "#experience",
   },
   {
-    name: "Leadership",
-    link: "#leadership",
-  },
-  {
-    name: "Skills",
-    link: "#skills",
+    name: "Contact",
+    link: "#contact",
   },
 ];
 
@@ -159,11 +159,22 @@ const techStackIcons = [
 const expCards = [
   {
     review:
-      "Umar works on backend systems and practical software development at Mulearn Foundation, contributing to real-world technical workflows and product features.",
+      "Umar contributed to the Pharmacy Plus mobile ERP app during a one-month internship at OneSoft.",
+    title: "Mobile App Developer Intern - OneSoft",
+    date: "October 2026 - Present",
+    responsibilities: [
+      "Analyzed the existing app and documented client requirements in a product requirements document.",
+      "Improved React and Capacitor app flows across onboarding, PIN and biometric access, dashboard, and inventory.",
+      "Refined responsive layouts, light and dark themes, and navigation; tested Android builds on-device and login flows in an iOS simulator.",
+    ],
+  },
+  {
+    review:
+      "Umar worked on backend systems and practical software development at Mulearn Foundation, contributing to technical workflows and product features.",
     imgPath: "/images/mulearn.png",
     logoPath: "/images/mulearn_logo.png",
     title: "Backend Intern - Mulearn Foundation",
-    date: "January 2026 - Present",
+    date: "January 2026 - June 2026",
     responsibilities: [
       "Contributed to backend development tasks for Mulearn Foundation projects.",
       "Worked with APIs, databases, debugging, and production-oriented development workflows.",

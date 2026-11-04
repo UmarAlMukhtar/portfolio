@@ -1,45 +1,76 @@
-import React, { useState, useEffect } from 'react'
-import { navLinks } from '../constants'
+import { useRef, useState } from "react";
+import { navLinks } from "../constants";
 
-const NavBar = () => {
-    const [scrolled, setScrolled] = React.useState(false);
+const NavBar = ({ theme, onThemeToggle, inert = false }) => {
+  const [open, setOpen] = useState(false);
+  const menuButton = useRef(null);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const isScrolled = window.scrollY > 10;
-            setScrolled(true);
-        }
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    },[]);
+  const closeMenu = () => setOpen(false);
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape" && open) {
+      closeMenu();
+      menuButton.current?.focus();
+    }
+  };
+
   return (
-    <header className={`navbar ${scrolled ? 'scrolled' : 'not-scrolled'}`}>
-        <div className='inner'>
-            <a className='logo' href="#hero">
-                Umar <span className='hidden md:inline'>Al Mukhtar Ibrahimkutty</span>
-            </a>
+    <header className="site-header" onKeyDown={handleKeyDown} inert={inert}>
+      <div className="site-header__inner" data-build-piece="box">
+        <a className="site-brand" href="#home" onClick={closeMenu} data-build-piece="text">
+          Umar Al Mukhtar
+        </a>
 
-            <nav className='desktop'>
-                <ul>
-                    {navLinks.map(({link, name}) => (
-                        <li key={name} className='group'>
-                            <a href={link}>
-                                <span>{name}</span>
-                                <span className='underline'/>
-                            </a>
-                        </li>
-                    ))}
-                </ul>
-            </nav>
+        <nav className="site-nav site-nav--desktop" aria-label="Primary navigation" data-build-piece="box">
+          <ul>
+            {navLinks.map(({ link, name }) => (
+              <li key={name}>
+                <a href={link} onClick={closeMenu} data-build-piece="text">{name}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
-            <a href="#contact" className='contact-btn group'>
-                <div className='inner'>
-                    <span>Contact me</span>
-                </div>
-            </a>
+        <div className="site-header__actions">
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+            aria-pressed={theme === "dark"}
+            onClick={onThemeToggle}
+            data-build-piece="text"
+          >
+            {theme === "light" ? "Dark" : "Light"}
+          </button>
+          <button
+            className="menu-toggle"
+            type="button"
+            aria-expanded={open}
+            aria-controls="site-navigation-menu"
+            onClick={() => setOpen((current) => !current)}
+            ref={menuButton}
+            data-build-piece="text"
+          >
+            {open ? "Close" : "Menu"}
+          </button>
         </div>
-    </header>
-  )
-}
+      </div>
 
-export default NavBar
+      <nav
+        className="site-nav site-nav--mobile"
+        id="site-navigation-menu"
+        aria-label="Mobile navigation"
+        hidden={!open}
+      >
+        <ul>
+          {navLinks.map(({ link, name }) => (
+            <li key={name}>
+              <a href={link} onClick={closeMenu}>{name}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
+  );
+};
+
+export default NavBar;

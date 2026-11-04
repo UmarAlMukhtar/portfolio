@@ -15,7 +15,7 @@ const TechIcon = ({model}) => {
                 }
             })
         }
-    }, [scene]);
+    }, [scene, model.name]);
 
     // Lower pixel ratio for performance
     const dpr = window.innerWidth < 768 ? 0.8 : 1.2;

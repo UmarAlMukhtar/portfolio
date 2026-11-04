@@ -1,65 +1,48 @@
 # Design Spec — Umar Al Mukhtar Portfolio
 
+## Direction
+
+Use Majd’s portfolio as the structural reference for oversized uppercase role typography, generous open space, large project visuals, and an oversized contact close. Use a slim, full-width text navigation with the name on the left and section links on the right. Keep the hero text-led and reserve project screenshots for the work section. Keep the copy, imagery, and claims grounded in Umar’s repository content.
+
+The site should feel personal and authored through hierarchy, restraint, and real project screenshots. It should not look like a generic dashboard or a generated set of cards.
+
 ## Colors
 
 | Token | Light | Dark | Usage |
 |---|---|---|---|
-| `bg-primary` | `#F5F2EA` | `#171915` | Main page background |
-| `bg-surface` | `#ECE8DF` | `#22251F` | Project and diagram surfaces |
-| `text-primary` | `#1D1E1A` | `#F4F0E7` | Headings and primary copy |
-| `text-muted` | `#575951` | `#B6B3A9` | Supporting copy and metadata |
-| `line` | `#D9D4C8` | `#3A3D34` | Dividers and card outlines |
-| `accent` | `#A3482A` | `#E2956F` | Links, focus states, small highlights |
-| `accent-soft` | `#E9D4C7` | `#482E25` | Small accent fills and diagram nodes |
-
-Light is the initial theme. A compact theme control switches between both palettes.
+| `bg` | `#F4F2ED` | `#121212` | Main page |
+| `surface` | `#E9E7E1` | `#1C1C1C` | Image backing and small surfaces |
+| `ink` | `#101010` | `#F2F0EB` | Main type and key controls |
+| `muted` | `#6A6863` | `#AAA7A0` | Secondary copy |
+| `line` | `#D8D6D0` | `#353535` | Section dividers |
+Use a light default and keep the theme switch visible in the header.
 
 ## Typography
 
-- Display and headings: DM Sans, 500–700; hero size `clamp(3.5rem, 9vw, 8rem)`.
-- Body: DM Sans, 400–500; 16px base, 1.6 line height.
-- Metadata: IBM Plex Mono, 400–500; 12–14px.
-- Fallbacks: system sans-serif and system monospace.
-- Use weight and size contrast instead of all-caps paragraphs or decorative type effects.
-
-## Spacing
-
-- Base unit: 8px, with 4px for tight details.
-- Scale: 4, 8, 12, 16, 24, 32, 48, 64, 96, 128px.
-- Desktop section spacing: 96–128px; mobile: 64–80px.
-
-## Radius
-
-- `sm`: 6px.
-- `md`: 10px.
-- `lg`: 16px.
-- Keep large surfaces mostly square; reserve rounded corners for cards and controls.
-
-## Elevation
-
-Flat. No shadows. Use surface color and a fine border to separate cards.
-
-## Icons
-
-Simple 1.5px line icons with rounded joins. Use arrows and system-node marks sparingly.
+- Hero: Arial/Helvetica system sans, weight 900, uppercase, tightly tracked, responsive size up to 15rem.
+- Section headings: same sans family with strong size contrast and tight tracking.
+- Metadata: Courier New/system monospace, small uppercase labels.
+- Do not load web fonts. Use type scale and spacing to carry the identity.
 
 ## Layout
 
-- Responsive web layout, 12 columns on desktop and 4 on mobile.
-- Maximum content width: 1240px.
-- Gutter: 24px desktop, 16px mobile.
-- Compact sticky top navigation; mobile navigation keeps only the key links visible.
-- Hero pairs a short introduction with a CSS/SVG backend-flow illustration.
+- Wide editorial canvas with a 1440px maximum width and responsive side gutters.
+- Full-width fixed header aligned to the page gutters, with visible desktop links and a simple mobile menu.
+- Hero uses a two-line “Backend Engineer” headline and a wide text introduction without a hero image.
+- Flow: hero, short about, grouped technical toolkit, featured work, experience/community, contact, footer.
+- Project screenshots remain large and directly sourced from `public/images`.
+- Keep thin separators and mostly square image frames. Avoid dashboard cards and decorative diagram motifs.
 
 ## Motion
 
-Native smooth anchor scrolling and short CSS transitions/reveals only. The multilingual intro lasts under one second, can be skipped, and is skipped when reduced motion is preferred. No scroll hijacking, long blocking loader, or 3D/WebGL.
+Use Lenis for an inertial page glide and smooth anchor navigation while retaining native document scrolling. Add a brief four-language intro that can be skipped, a reading-progress line, and restrained scroll-linked reveals for section headings, project imagery, and content rows. Reduced-motion users skip the intro and get immediate native scrolling. Keep the motion local to this page; avoid cursor effects, video, and 3D.
 
-## Banned
+## Content boundaries
 
-- Heavy 3D, WebGL, video backgrounds, cursor effects, or scroll-jacking.
-- Bright neon gradients, generic dashboard layouts, or overly saturated card colors.
-- A loader that delays reading the page, motion without a reduced-motion path, or unsupported project metrics.
-- Placeholder testimonials or invented credentials.
+- Reuse the current FocusFlow, MatchUndo, community project, experience, leadership, and social data.
+- Do not add agency services, testimonials, blog entries, contact forms, personal-photo stand-ins, new metrics, or unsupported claims.
+- Keep the future-dated IEEE Sensors Council chair entry hidden pending confirmation.
 
-This spec is locked. All subsequent UI work must conform to DESIGN.md. If a decision isn't in the spec, ask before implementing. Do not deviate.
+## Reference
+
+[Majd portfolio](https://majd-portfolio.framer.website/) supplies the composition and pacing reference. Its content, portrait, decorative objects, and business sections are not copied.
