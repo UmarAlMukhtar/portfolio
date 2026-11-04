@@ -12,6 +12,7 @@ This pre-deployment report records the local checks on the compiled portfolio. T
 - Applied compatible dependency updates, including Vite 6.4.5 and postprocessing 6.39.6; resolved the legacy Three.js peer warning.
 - Corrected the resume's Mulearn date from January 2026–Present to January–June 2026. All other resume text, both pages, and link counts were preserved; both pages were visually reviewed. This was a date correction, not a full resume rewrite.
 - Added a 1200×630 PNG share card using the existing warm monochrome design, replacing the SVG social image.
+- Upgraded ESLint and compatible React lint plugins, preserved the existing hooks rule severities, removed the obsolete pnpm lockfile, and added a lint compatibility test. Node.js 22.13+ is required. `npm run check` now audits the entire dependency tree.
 - Added `npm run check` and three artifact tests using Node's built-in test runner. Metadata test was observed failing on unresolved placeholders before the fix.
 
 ## Verification
@@ -20,9 +21,9 @@ This pre-deployment report records the local checks on the compiled portfolio. T
 | --- | --- |
 | Strict lint | Zero errors or warnings, including existing source files |
 | Build | Vite production build, 45 modules; no unresolved environment warnings |
-| Artifact tests | 3/3: metadata/structured data, assets and PDF, compressed payload budgets |
+| Tests | 4/4: metadata/structured data, assets and PDF, compressed payload budgets, lint-toolchain compatibility |
 | Fresh install | `npm ci` and `npm run check` in an isolated directory whose path contains spaces |
-| Production audit | `npm audit --omit=dev`: zero reported vulnerabilities |
+| Full dependency audit | `npm audit`: zero reported vulnerabilities, including development tools |
 | Desktop motion | Actual Brave, 1440×900: measured mean frame interval 16.67ms; no sampled frame over 33ms in the 5-second handoff/build window |
 | Mobile motion | Brave 390×844 touch emulation: six busy agents, mean 16.67ms; no sampled frame over 33ms in the 4.5-second build window; finishing corrections observed |
 | Loader handoff | Zero visible content during the loader's closing phase; first frame after loader removal had zero visible hero text and active workers |
@@ -42,7 +43,7 @@ Measured windows are diagnostics on this computer, not a guarantee for every dev
 
 ## Remaining limits
 
-- Full `npm audit` reports six moderate development-tool findings from the transitive `minimatch` advisory [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249). npm reports no compatible fix. No major-version override was forced; the lint tooling is not shipped in the static browser bundle.
+- ESLint 10.14.0 still requests minimatch 10, so its subtree has a scoped override to patched minimatch 11 (currently locked to 11.0.4) for [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249). Remove this override once upstream requires a patched version. No audit findings are suppressed. The original six development-tool findings are resolved; lint rules and dependency peers were verified.
 - iOS Safari, Android browsers on physical devices, screen-reader usage, social-card rendering, and public-host cache/security headers were not independently tested in this pass. No Lighthouse or accessibility certification is claimed.
 - HTTP status checks establish reachability, not the functionality of linked project applications or ownership of social profiles. LinkedIn still needs a normal manual profile visit.
 - The PNG share image is validated locally at 1200×630; platform-specific cropping/cache behavior still needs a public share-preview check.

@@ -4,7 +4,7 @@ A React portfolio with a multilingual intro, cursor agents that build sections a
 
 ## Develop and check
 
-Use Node.js 22 and npm 10 (validated with Node 22.23.1 / npm 10.9.8).
+Use Node.js 22.13 or newer within the 22.x release line and npm 10 (validated with Node 22.23.1 / npm 10.9.8).
 
 ```sh
 npm ci
@@ -17,7 +17,7 @@ Before a release:
 npm run check
 ```
 
-This runs lint with zero warnings allowed, builds `dist/`, checks metadata/assets/payload budgets with Node's test runner, and audits production dependencies. `npm test` alone expects an existing production build. Run `npm audit` separately to see development-tool advisories as well.
+This runs lint with zero warnings allowed, builds `dist/`, checks metadata/assets/payload budgets and lint-toolchain compatibility with Node's test runner, and audits all dependencies, including development tooling. `npm test` alone expects an existing production build.
 
 ## Preview on a phone
 
@@ -29,7 +29,7 @@ Open the printed network address on a phone connected to the same trusted Wi-Fi.
 
 ## Deploy
 
-The existing Vercel Git integration deploys `main`. `vercel.json` explicitly uses `npm ci` and the npm lockfile, then runs strict lint, the production build and artifact tests. `package.json` selects Node.js 22. The older pnpm lockfile is retained for history and is not used by this deployment.
+The existing Vercel Git integration deploys `main`. `vercel.json` explicitly uses `npm ci` and the npm lockfile, then runs strict lint, the production build and artifact tests. `package.json` selects Node.js 22. The npm lockfile is authoritative; use npm for dependency changes.
 
 Publish the contents of `dist/` at the root of a static HTTPS host. Build command: `npm run build`; output directory: `dist`. Hash anchors (`#home`, `#work`, etc.) need no server-side routes. Do not use the Vite development or preview server as the production web server. See the [Vite deployment guide](https://vite.dev/guide/static-deploy.html).
 
@@ -49,3 +49,7 @@ Configure the host to revalidate HTML and cache hashed `/assets/` files for a ye
 Legacy 3D components/assets remain in the repository. The active app does not import them; the production build does not include their JavaScript.
 
 The [production readiness report](docs/production-readiness.md) records the final checks, fixes, and remaining limitations.
+
+## Development dependency security
+
+ESLint 10 and its compatible React plugins use the patched minimatch through an ESLint-scoped npm override. Remove the override once ESLint and its configuration packages require minimatch 11.0.1 or newer directly. The lint-toolchain test verifies that JavaScript, JSX hooks, refresh exports, and output ignores still work with this override. Existing hooks rule severities are preserved explicitly rather than enabling the new plugin's additional compiler rules.
